@@ -18,7 +18,7 @@ class Habits(models.Model):
         blank=True,
         null=True
     ),
-    pleasant_habit_flag = models.CharField(
+    pleasant_habit_flag = models.BooleanField(
         max_length=250,
         verbose_name="Признак приятной привычки",
         help_text="Введите Признак"
@@ -29,7 +29,7 @@ class Habits(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        limit_choices_to={"is_pleasant": True},
+        limit_choices_to={"pleasant_habit_flag": True},
         verbose_name="Связанная привычка",
     ),
     frequency = models.PositiveIntegerField(default=1, verbose_name="Периодичность"),
