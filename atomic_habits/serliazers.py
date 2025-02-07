@@ -23,12 +23,18 @@ class HabitsSerializer(serializers.ModelSerializer):
 class Habits_Is_Available(serializers.ModelSerializer):
     class Meta:
         model = Habits
-        fields = "pleasant_habit_flag, linked_habit"
+        fields = "linked_habit, pleasant_habit_flag, time_to_perform, frequency, reward"
         read_only_fields = ["owner"]
 
-    def choice(self, linked_habit, pleasant_habit_flag):
+    def choice(self, linked_habit, pleasant_habit_flag, time_to_perform, frequency, reward):
         """
-        если одна из привычек активна вторая неактивна
+        соблюдение условий привыячек
         """
         if linked_habit == 1 and pleasant_habit_flag == 1:
             raise serializers.ValidationError("Привычки не могут быть активны одновременно")
+        if time_to_perform > 120:
+            raise serializers.ValidationError("Время выполнения не должно быть больше 120 минут.")
+        if frequency < 1 or frequency > 7:
+            raise serializers.ValidationError("Периодичность выполнения должна быть от 1 до 7 дней")
+        if pleasant_habit_flag == 1 and linked_habit == 1 or reward == 1:
+            raise serializers.ValidationError("У приятной привычки не может быть вознаграждения или связанной привычки")
