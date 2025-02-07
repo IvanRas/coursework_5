@@ -24,15 +24,16 @@ class Habits(models.Model):
         help_text="Введите Признак"
     ),
 
-    linked_habit = models.ForeignKey(
-        "self",
-        on_delete=models.SET_NULL,
+    linked_habit = models.BooleanField(
+        max_length=250,
         null=True,
         blank=True,
-        limit_choices_to={"pleasant_habit_flag": True},
         verbose_name="Связанная привычка",
     ),
-    frequency = models.PositiveIntegerField(default=1, verbose_name="Периодичность"),
+    frequency = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Периодичность"
+    ),
     reward = models.CharField(
         max_length=250,
         null=True,
@@ -40,9 +41,10 @@ class Habits(models.Model):
         verbose_name="Вознаграждение ",
         help_text="Введите Вознаграждение "
     )
-    publicity_flag = (
-        models.BooleanField(default=False, verbose_name="Признак публичности")
-    )
+    publicity_flag = models.BooleanField(
+            default=False,
+            verbose_name="Признак публичности"
+        ),
     is_available = models.BooleanField(default=False, verbose_name="Работает"),
     owner = (
         models.ForeignKey(
