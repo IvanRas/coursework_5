@@ -27,6 +27,13 @@ class User(AbstractUser):
         blank=True,
         null=True,
     )
+    telegram = models.CharField(
+        max_length=15,
+        verbose_name="Телеграм",
+        help_text="Введите телеграма",
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return f"{self.email}"

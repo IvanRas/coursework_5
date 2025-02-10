@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "drf_yasg",
     "corsheaders",
     "django_celery_beat",
+    "users",
+    "habits",
 ]
 
 REST_FRAMEWORK = {
@@ -160,6 +162,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+AUTH_USER_MODEL = "users.User"
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -213,12 +216,3 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": timedelta(days=1),  # Расписание выполнения задачи (например, каждые день)
     },
 }
-
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

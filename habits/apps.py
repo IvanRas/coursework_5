@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class AtomicHabitsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "atomic_habits"
+    name = "habits"

@@ -10,16 +10,15 @@ from users.views import UserRegisterView
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path(
-        "register/", UserRegisterView.as_view(), name="user-register"
-    ),  # Регистрация пользователя
+    path("register/", UserRegisterView.as_view(), name="user-register"),  # Регистрация пользователя
     path(
         "login/",
         TokenObtainPairView.as_view(permission_classes=(AllowAny,)),
         name="login",
     ),  # Авторизация пользователя
-    path("token/refresh/",
-         TokenRefreshView.as_view(permission_classes=(AllowAny,)),
-         name="token_refresh",
-         ),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(permission_classes=(AllowAny,)),
+        name="token_refresh",
+    ),
 ]
