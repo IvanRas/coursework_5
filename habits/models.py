@@ -27,14 +27,11 @@ class Habits(models.Model):
     )
     publicity_flag = (models.BooleanField(default=False, verbose_name="Признак публичности"),)
     is_available = (models.BooleanField(default=False, verbose_name="Работает"),)
-    owner = (
-        models.ForeignKey(
-            settings.AUTH_USER_MODEL,
-            on_delete=models.CASCADE,
-            verbose_name="Владелец",
-            related_name="products",
-            null=True,
-        ),
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="habits",
+        verbose_name="Создатель привычки",
     )
 
     def __str__(self):

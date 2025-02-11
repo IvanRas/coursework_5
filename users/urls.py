@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from users.apps import UsersConfig
 from rest_framework.permissions import AllowAny
 
-from users.views import UserRegisterView
+from users.views import UserRegisterView, PublicHabitListView
 
 # Описание маршрутизации для User
 
@@ -21,4 +21,5 @@ urlpatterns = [
         TokenRefreshView.as_view(permission_classes=(AllowAny,)),
         name="token_refresh",
     ),
+    path("public_list/", PublicHabitListView.as_view(), name="habits_list"),
 ]

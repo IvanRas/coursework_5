@@ -33,5 +33,5 @@ class HabitsSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "У приятной привычки не может быть вознаграждения или связанной привычки"
             )
-        if linked_habit == 1 and reward == 1:
+        if linked_habit == reward:
             raise serializers.ValidationError("У связанной привычки не может быть вознаграждения")

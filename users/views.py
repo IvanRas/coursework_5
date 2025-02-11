@@ -1,9 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
-
-
 from .serializers import UserSerializer
 
 User = get_user_model()
@@ -17,3 +15,14 @@ class UserRegisterView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class PublicHabitListView(ListAPIView):
+    """
+    Просмотор всех привычки
+    """
+
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return User.objects
