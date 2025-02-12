@@ -21,7 +21,7 @@ class Habits(models.Model):
             verbose_name="Связанная привычка",
         ),
     )
-    frequency = (models.PositiveIntegerField(default=1, verbose_name="Периодичность"),)
+    frequency = models.PositiveIntegerField(default=1, verbose_name="Периодичность")
     reward = models.CharField(
         max_length=250, null=True, blank=True, verbose_name="Вознаграждение ", help_text="Введите Вознаграждение "
     )
@@ -29,6 +29,8 @@ class Habits(models.Model):
     is_available = (models.BooleanField(default=False, verbose_name="Работает"),)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="habits",
         verbose_name="Создатель привычки",
