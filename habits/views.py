@@ -29,7 +29,7 @@ class PublicHabitListView(ListAPIView):
     serializer_class = HabitsSerializer
 
     def get_queryset(self):
-        return Habits.objects.filter(action=True).order_by("action")
+        return Habits.objects.filter(action=True)
 
 
 class HabitCreateView(CreateAPIView):
