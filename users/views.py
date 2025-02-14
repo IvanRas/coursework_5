@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from .serializers import UserSerializer
@@ -23,6 +23,7 @@ class PublicHabitListView(ListAPIView):
     """
 
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         return User.objects
