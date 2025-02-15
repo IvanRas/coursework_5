@@ -34,18 +34,20 @@ class Habits(models.Model):
     reward = models.CharField(
         max_length=250, null=True, blank=True, verbose_name="Вознаграждение ", help_text="Введите Вознаграждение "
     )
-    time_to_perform = models.PositiveIntegerField(verbose_name="Время на выполнение", blank=True, null=True)  # Int+
+    time_to_perform = models.PositiveIntegerField(verbose_name="Время на выполнение")  # Int+
     publicity_flag = models.BooleanField(default=False, verbose_name="Признак публичности")
 
     def __str__(self):
-        return f"{self.pleasant_habit_flag}, {self.linked_habit}"
+        return f"{self.pleasant_habit_flag}, {self.related_habit}"
 
     def clean(self):
         if self.reward and self.related_habit:
-            raise ValidationError("Нельзя совмещать вознаграждение и связанную привычку.")
+            raise ValidationError(
+                "Нельзя совмещать вознаграждение и связанную привычку."
+            )
         if self.time_to_perform > 120:
             raise ValidationError("Время выполнения не должно быть больше 120 минут.")
-        if self.frequency > 7:
+        if self.frequency < 1 or self.frequency > 7:
             raise ValidationError("Периодичность выполнения должна быть от 1 до 7 дней")
 
     class Meta:

@@ -18,7 +18,7 @@ class HabitListView(ListAPIView):
     pagination_class = HabitListPagination
 
     def get_queryset(self):
-        return Habits.objects.filter(owner=self.request.user).order_by("owner")
+        return Habits.objects.filter(owner=self.request.user).order_by("action")
 
 
 class PublicHabitListView(ListAPIView):
@@ -29,7 +29,7 @@ class PublicHabitListView(ListAPIView):
     serializer_class = HabitsSerializer
 
     def get_queryset(self):
-        return Habits.objects.filter(action=True)
+        return Habits.objects.filter(publicity_flag=True).order_by("action")
 
 
 class HabitCreateView(CreateAPIView):
