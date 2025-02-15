@@ -1,23 +1,29 @@
-from datetime import timedelta
-from django.utils import timezone
 from celery import shared_task
-from django.core.mail import send_mail
+import requests
+
 from config import settings
-from django.contrib.auth.models import User
+from habits.models import Habits
+
+# Create your tests here.
 
 
 @shared_task
-def subscription_renewal(to_email, subject, message):
-    """Информирование об обновлении курса."""
-    send_mail(subject, message, settings.EMAIL_HOST_USER[to_email])
-
-
-@shared_task
-def deactivate_inactive_users():
+def telegram_reminder():
     """
-    blocking a user who has not logged in for more than a month
-    блокировка пользователя, который не заходил в систему более месяца
+    Задача отправки уведомления в телеграм
     """
-    one_month_ago = timezone.now() - timedelta(days=30)
-    inactive_users = User.objects.filter(last_login=one_month_ago, is_active=True)
-    inactive_users.update(is_active=False)
+
+    for habits in Habits.object.all():
+        message = (
+            f"Не забудьте выполнить привычку: {habits.action}\n"
+            f"Время выполнения: {habits.time}\n"
+            f"Место выполнения: {habits.place}."
+        )
+        params = {
+            "text": message,
+            "chat_id": habits.TELEGRAM_API_KEY
+        }
+        requests.get(
+            f"http://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage",
+            params=params,
+        )

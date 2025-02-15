@@ -3,80 +3,13 @@
     "model": "habits.habits",
     "pk": 1,
     "fields": {
-        "reward": null,
-        "owner": 1
     }
 },
 {
     "model": "habits.habits",
     "pk": 2,
     "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 3,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 4,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 5,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 6,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 7,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 8,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 9,
-    "fields": {
-        "reward": null,
-        "owner": 1
-    }
-},
-{
-    "model": "habits.habits",
-    "pk": 10,
-    "fields": {
         "reward": "Вознаграждение",
-        "owner": 1
     }
 }
 ]
