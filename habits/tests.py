@@ -23,7 +23,7 @@ class HabitsModelTest(TestCase):
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
-            owner= self.user,
+            owner=self.user,
             related_habit="Связанная привычка"
         )
         self.assertIsInstance(habits, Habits)
@@ -40,7 +40,7 @@ class HabitsModelTest(TestCase):
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
-            owner= self.user,
+            owner=self.user,
             related_habit="Связанная привычка"
         )
         self.assertEqual(str(habits), habits.action)
