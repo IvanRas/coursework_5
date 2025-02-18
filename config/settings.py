@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from dotenv import load_dotenv
-from pathlib import Path
 
 load_dotenv(override=True)
 
@@ -218,3 +218,4 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 TELEGRAM_API_KEY = os.getenv("TELEGRAM_API_KEY")
+

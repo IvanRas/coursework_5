@@ -1,8 +1,7 @@
 from django.urls import path
 
 from habits.apps import AtomicHabitsConfig
-from habits.views import HabitListView, PublicHabitListView, HabitCreateView, HabitUpdateView, HabitDeleteView
-
+from habits.views import HabitCreateView, HabitDeleteView, HabitListView, HabitUpdateView, PublicHabitListView
 
 # Описание маршрутизации для User
 

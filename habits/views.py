@@ -1,10 +1,9 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, UpdateAPIView
 
 from habits.models import Habits
 from habits.paginators import HabitListPagination
 from habits.serliazers import HabitsSerializer
-
 
 # Create your views here.
 

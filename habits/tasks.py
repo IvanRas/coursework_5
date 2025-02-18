@@ -1,5 +1,5 @@
-from celery import shared_task
 import requests
+from celery import shared_task
 
 from config import settings
 from habits.models import Habits
@@ -19,10 +19,7 @@ def telegram_reminder():
             f"Время выполнения: {habits.time}\n"
             f"Место выполнения: {habits.place}."
         )
-        params = {
-            "text": message,
-            "chat_id": habits.TELEGRAM_API_KEY
-        }
+        params = {"text": message, "chat_id": habits.TELEGRAM_API_KEY}
         requests.get(
             f"http://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage",
             params=params,

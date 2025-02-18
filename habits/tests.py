@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from habits.models import Habits
-from rest_framework.test import APIClient
 
 # Create your tests here.
 
@@ -12,10 +12,10 @@ User = get_user_model()
 
 class HabitsModelTest(TestCase):
     def setUp(self):
-        self. user = User.objects.create_user(username="test_user", password="12345")
+        self.user = User.objects.create_user(username="test_user", password="12345")
 
     def test_creating_habit(self):
-        habits = Habits.objects.create(
+        habit = Habits.objects.create(
             place="место",
             time="14:00:00",
             action="Действие",
@@ -23,27 +23,55 @@ class HabitsModelTest(TestCase):
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
+            publicity_flag=True,
             owner=self.user,
-            related_habit="Связанная привычка"
         )
-        self.assertIsInstance(habits, Habits)
-        self.assertEqual(habits.action, "Действие")
-        self.assertEqual(habits.place, "место")
-        self.assertEqual(habits.frequency, 2)
+        self.assertIsInstance(habit, Habits)
+        self.assertEqual(habit.action, "Действие")
+        self.assertEqual(habit.place, "место")
+        self.assertEqual(habit.frequency, 2)
 
     def test_habit_string_representation(self):
         habits = Habits.objects.create(
             place="место",
             time="14:00:00",
-            action="Действие",
+            action=True,
             pleasant_habit_flag=True,
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
+            publicity_flag=True,
             owner=self.user,
-            related_habit="Связанная привычка"
         )
         self.assertEqual(str(habits), habits.action)
+
+
+class HabitsSerializerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="test_user", password="12345")
+        self.valid_habit_data = {
+            "place": "Дом",
+            "time": "8:00:00",
+            "action": "зарядка",
+            "pleasant_habit_flag": True,
+            "frequency": 3,
+            "reward": None,
+            "time_to_complete": 120,
+            "publicity_flag": True,
+        }
+
+    def test_invalid_habit_with_both_reward_and_related_habit(self):
+        invalid_data = self.valid_habit_data.copy()
+        invalid_data["reward"] = "Какое-то вознаграждение"
+        invalid_data["related_habit"] = True
+
+    def test_invalid_time_to_complete(self):
+        invalid_data = self.valid_habit_data.copy()
+        invalid_data["time_to_complete"] = 121  # Пример недопустимого значения
+
+    def test_invalid_frequency(self):
+        invalid_data = self.valid_habit_data.copy()
+        invalid_data["frequency"] = 8  # Пример недопустимого значения
 
 
 class HabitAPITestCase(TestCase):
@@ -60,8 +88,8 @@ class HabitAPITestCase(TestCase):
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
+            publicity_flag=True,
             owner=self.user,
-            related_habit="Связанная привычка"
         )
 
     def test_create_habit(self):
@@ -75,30 +103,30 @@ class HabitAPITestCase(TestCase):
                 "frequency": 2,
                 "reward": "Вознаграждение",
                 "time_to_perform": 100,
+                "publicity_flag": True,
                 "owner": 100,
-                "related_habit": "Связанная привычка",
             },
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["action"], "Чтение")
+        self.assertEqual(response.data["action"], "Действие")
 
     def test_update_habit(self):
         response = self.client.patch(
-            f"/habits/edit/{self.habits.id}/",
+            f"/habits/habits_update/{self.habits.id}/",
             {"action": "Другое действие", "frequency": 5},
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.habit.refresh_from_db()
+        self.habits.refresh_from_db()
         self.assertEqual(self.habits.action, "Другое действие")
         self.assertEqual(self.habits.frequency, 5)
 
     def test_delete_habit(self):
-        response = self.client.delete(f"/habits/delete/{self.habit.id}/")
+        response = self.client.delete(f"/habits/habits_delete/{self.habits.id}/")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Habits.objects.filter(id=self.habit.id).exists())
+        self.assertFalse(Habits.objects.filter(id=self.habits.id).exists())
 
     def test_list_user_habits(self):
-        response = self.client.get("/habits/list/")
+        response = self.client.get("/habits/habits_list/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 4)
 
@@ -108,12 +136,12 @@ class HabitAPITestCase(TestCase):
             place="дом",
             time="07:00:00",
             action="зарядка",
-            is_pleasant=True,
+            pleasant_habit_flag=True,
             frequency=1,
             reward=None,
-            time_to_complete=120,
-            is_public=True,
+            time_to_perform=120,
+            publicity_flag=True,
         )
-        response = self.client.get("/habits/list/public/")
+        response = self.client.get("/habits/habits_public_list/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn(public_habit.action, [habits["action"] for habits in response.data])

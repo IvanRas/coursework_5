@@ -3,7 +3,6 @@ from rest_framework.exceptions import ValidationError
 
 from config import settings
 
-
 # Create your models here.
 
 
@@ -42,9 +41,7 @@ class Habits(models.Model):
 
     def clean(self):
         if self.reward and self.related_habit:
-            raise ValidationError(
-                "Нельзя совмещать вознаграждение и связанную привычку."
-            )
+            raise ValidationError("Нельзя совмещать вознаграждение и связанную привычку.")
         if self.time_to_perform > 120:
             raise ValidationError("Время выполнения не должно быть больше 120 минут.")
         if self.frequency < 1 or self.frequency > 7:
