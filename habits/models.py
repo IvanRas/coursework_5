@@ -37,7 +37,7 @@ class Habits(models.Model):
     publicity_flag = models.BooleanField(default=False, verbose_name="Признак публичности")
 
     def __str__(self):
-        return f"{self.pleasant_habit_flag}, {self.related_habit}"
+        return self.action
 
     def clean(self):
         if self.reward and self.related_habit:
