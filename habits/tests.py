@@ -35,7 +35,7 @@ class HabitsModelTest(TestCase):
         habits = Habits.objects.create(
             place="место",
             time="14:00:00",
-            action=True,
+            action="Действие",
             pleasant_habit_flag=True,
             frequency=2,
             reward="Вознаграждение",
@@ -84,28 +84,29 @@ class HabitAPITestCase(TestCase):
             place="место",
             time="14:00:00",
             action="Действие",
-            pleasant_habit_flag=True,
+            pleasant_habit_flag=False,
             frequency=2,
             reward="Вознаграждение",
             time_to_perform=100,
-            publicity_flag=True,
+            publicity_flag=False,
             owner=self.user,
         )
 
     def test_create_habit(self):
         response = self.client.post(
-            "/habits/create/",
+            "/habits/habits_create/",
             {
                 "place": "место",
                 "time": "14:00:00",
                 "action": "Действие",
-                "pleasant_habit_flag": True,
+                "pleasant_habit_flag": False,
                 "frequency": 2,
                 "reward": "Вознаграждение",
                 "time_to_perform": 100,
-                "publicity_flag": True,
+                "publicity_flag": False,
                 "owner": 100,
             },
+
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["action"], "Действие")
@@ -114,6 +115,7 @@ class HabitAPITestCase(TestCase):
         response = self.client.patch(
             f"/habits/habits_update/{self.habits.id}/",
             {"action": "Другое действие", "frequency": 5},
+
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.habits.refresh_from_db()
