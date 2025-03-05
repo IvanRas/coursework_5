@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -31,8 +32,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.getenv("DEBUG") == "True" else False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -153,6 +153,7 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATIC_ROOT = [BASE_DIR / "staticfiles"]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -218,3 +219,11 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 TELEGRAM_API_KEY = os.getenv("TELEGRAM_API_KEY")
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': "django.db.backends.sqlite3",
+            'NAME': BASE_DIR / 'test_db.sqlite3'
+        }
+    }
